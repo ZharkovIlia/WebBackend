@@ -18,6 +18,7 @@ public class UserEntity {
     private String login;
     private String email;
     private List<CommentEntity> commentsById = new ArrayList<>();
+    private List<PublicationEntity> publicationsById = new ArrayList<>();
 
     @Id
     @Column(name = "user_id", nullable = false)
@@ -88,5 +89,15 @@ public class UserEntity {
 
     public void setCommentsById(List<CommentEntity> commentsById) {
         this.commentsById = commentsById;
+    }
+
+    @OneToMany(cascade = ALL)
+    @JoinColumn(name="publication_id")
+    public List<PublicationEntity> getPublicationsById() {
+        return publicationsById;
+    }
+
+    public void setPublicationsById(List<PublicationEntity> publicationsById) {
+        this.publicationsById = publicationsById;
     }
 }

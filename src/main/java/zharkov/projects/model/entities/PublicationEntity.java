@@ -11,6 +11,7 @@ import static javax.persistence.CascadeType.ALL;
 @Table(name = "publications", schema = "public", catalog = "samizdat")
 public class PublicationEntity {
     private int publicationId;
+    private Integer userId;
     private String description;
     private String time;
     private Timestamp creationTime;
@@ -18,6 +19,7 @@ public class PublicationEntity {
     private String text;
     private int type;
     private List<CommentEntity> commentsById = new ArrayList<>();
+    private UserEntity userByUserId;
 
     @Id
     @Column(name = "publication_id", nullable = false)
@@ -36,6 +38,16 @@ public class PublicationEntity {
 
     public void setPublicationId(int publicationId) {
         this.publicationId = publicationId;
+    }
+
+    @Basic
+    @Column(name = "user_id", nullable = false)
+    public Integer getUserId() {
+        return userId;
+    }
+
+    protected void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     @Basic
@@ -134,5 +146,16 @@ public class PublicationEntity {
 
     public void setCommentsById(List<CommentEntity> commentsById) {
         this.commentsById = commentsById;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "user_id", insertable = false, updatable = false)
+    public UserEntity getUserByUserId() {
+        return userByUserId;
+    }
+
+    public void setUserByUserId(UserEntity userByUserId) {
+        this.userByUserId = userByUserId;
+        this.userId = userByUserId.getUserId();
     }
 }

@@ -10,6 +10,7 @@ ALTER TABLE public.users OWNER TO samizdat;
 
 CREATE TABLE public.publications (
 	publication_id serial NOT NULL PRIMARY KEY,
+	user_id integer NOT NULL REFERENCES users (user_id) ON UPDATE CASCADE ON DELETE CASCADE,
 	description text NOT NULL,
 	time_ text,
 	creation_time timestamp(6) without time zone[] NOT NULL,
