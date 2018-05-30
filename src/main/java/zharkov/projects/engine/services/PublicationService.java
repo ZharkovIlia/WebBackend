@@ -1,6 +1,7 @@
 package zharkov.projects.engine.services;
 
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 import zharkov.projects.engine.dao.PublicationDAO;
 import zharkov.projects.engine.dao.TagPublicationDAO;
 import zharkov.projects.model.PublicationVisibility;
@@ -8,6 +9,7 @@ import zharkov.projects.model.entities.PublicationEntity;
 import zharkov.projects.model.entities.TagPublicationEntity;
 import zharkov.projects.model.frontend.Publication;
 import zharkov.projects.utils.HibernateUtil;
+import zharkov.projects.utils.StringToIntConverterByTags;
 
 import java.util.*;
 
@@ -24,10 +26,10 @@ public class PublicationService extends AbstractService<PublicationEntity> {
         List<PublicationEntity> entities;
         List<TagPublicationEntity> tagPublicationEntities;
         try {
-            session.beginTransaction();
-            entities = dao.getPublicationsByType(pv);
-            tagPublicationEntities = tagPublicationDAO.getAll();
-            session.getTransaction().commit();
+            Transaction tx = session.beginTransaction();
+            entities = dao.getPublicationsByType(pv, session);
+            tagPublicationEntities = tagPublicationDAO.getAll(session);
+            tx.commit();
         } catch (RuntimeException e) {
             session.getTransaction().rollback();
             throw e;
@@ -40,7 +42,12 @@ public class PublicationService extends AbstractService<PublicationEntity> {
             result.put(entity.getPublicationId(), new Publication(entity));
         }
         for (TagPublicationEntity entity : tagPublicationEntities) {
-            result.get(entity.getPublicationId()).getTags().add(entity.getName());
+            if ( !result.containsKey(entity.getPublicationId())) {
+                continue;
+            }
+            result.get(entity.getPublicationId())
+                    .getTags()
+                    .add(StringToIntConverterByTags.toString(entity.getTagId()));
         }
         return result.values();
     }

@@ -8,18 +8,17 @@ import javax.persistence.Id;
 import java.io.Serializable;
 
 public class TagPublicationEntityPK implements Serializable {
-    private String name;
+    private int tagId;
     private int publicationId;
 
     @Column(name = "tag_id", nullable = false)
     @Id
-    @Convert(converter = StringToIntConverterByTags.class)
-    public String getName() {
-        return name;
+    public int getTagId() {
+        return tagId;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTagId(int tagId) {
+        this.tagId = tagId;
     }
 
     @Column(name = "publication_id", nullable = false)
@@ -39,7 +38,7 @@ public class TagPublicationEntityPK implements Serializable {
 
         TagPublicationEntityPK that = (TagPublicationEntityPK) o;
 
-        if (name != null ? !name.equals(that.name) : that.name != null) return false;
+        if (tagId != that.tagId) return false;
         if (publicationId != that.publicationId) return false;
 
         return true;
@@ -47,7 +46,7 @@ public class TagPublicationEntityPK implements Serializable {
 
     @Override
     public int hashCode() {
-        int result = (name != null ? name.hashCode() : 0);
+        int result = tagId;
         result = 31 * result + publicationId;
         return result;
     }

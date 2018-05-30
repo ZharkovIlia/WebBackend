@@ -8,19 +8,18 @@ import javax.persistence.*;
 @Table(name = "tags_publications", schema = "public", catalog = "samizdat")
 @IdClass(TagPublicationEntityPK.class)
 public class TagPublicationEntity {
-    private String name;
+    private int tagId;
     private int publicationId;
     private PublicationEntity publicationByPublicationId;
 
     @Id
     @Column(name = "tag_id", nullable = false)
-    @Convert(converter = StringToIntConverterByTags.class)
-    public String getName() {
-        return name;
+    public int getTagId() {
+        return tagId;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTagId(int tagId) {
+        this.tagId = tagId;
     }
 
     @Id
@@ -39,7 +38,7 @@ public class TagPublicationEntity {
         if (o == null || getClass() != o.getClass()) return false;
 
         TagPublicationEntity that = (TagPublicationEntity) o;
-        if (name != null ? !name.equals(that.name) : that.name != null) return false;
+        if (tagId != that.tagId) return false;
         if (publicationId != that.publicationId) return false;
 
         return true;
@@ -58,7 +57,7 @@ public class TagPublicationEntity {
 
     @Override
     public int hashCode() {
-        int result = (name != null ? name.hashCode() : 0);
+        int result = tagId;
         result = 31 * result + publicationId;
         return result;
     }
