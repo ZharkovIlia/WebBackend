@@ -1,5 +1,8 @@
 package zharkov.projects.model.entities;
 
+import zharkov.projects.model.PublicationVisibility;
+import zharkov.projects.utils.PublicationVisibilityToIntConverter;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -12,13 +15,15 @@ import static javax.persistence.CascadeType.ALL;
 public class PublicationEntity {
     private int publicationId;
     private Integer userId;
+    private String name;
     private String description;
     private String time;
     private Timestamp creationTime;
     private int numLikes;
     private String text;
-    private int type;
+    private PublicationVisibility type;
     private List<CommentEntity> commentsById = new ArrayList<>();
+    private List<TagPublicationEntity> tagsById = new ArrayList<>();
     private UserEntity userByUserId;
 
     @Id
@@ -61,6 +66,16 @@ public class PublicationEntity {
     }
 
     @Basic
+    @Column(name = "name_", nullable = false, length = -1)
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Basic
     @Column(name = "time_", nullable = true, length = -1)
     public String getTime() {
         return time;
@@ -90,7 +105,7 @@ public class PublicationEntity {
         this.numLikes = numLikes;
     }
 
-    @Basic
+    @Basic(fetch = FetchType.LAZY)
     @Column(name = "text_", nullable = false, length = -1)
     public String getText() {
         return text;
@@ -102,11 +117,12 @@ public class PublicationEntity {
 
     @Basic
     @Column(name = "type_", nullable = false)
-    public int getType() {
+    @Convert(converter = PublicationVisibilityToIntConverter.class)
+    public PublicationVisibility getType() {
         return type;
     }
 
-    public void setType(int type) {
+    public void setType(PublicationVisibility type) {
         this.type = type;
     }
 
@@ -146,6 +162,16 @@ public class PublicationEntity {
 
     public void setCommentsById(List<CommentEntity> commentsById) {
         this.commentsById = commentsById;
+    }
+
+    @OneToMany(cascade = ALL)
+    @JoinColumn(name="publication_id")
+    public List<TagPublicationEntity> getTagsById() {
+        return tagsById;
+    }
+
+    public void setTagsById(List<TagPublicationEntity> tagsById) {
+        this.tagsById = tagsById;
     }
 
     @ManyToOne

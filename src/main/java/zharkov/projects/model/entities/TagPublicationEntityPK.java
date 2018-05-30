@@ -1,6 +1,6 @@
 package zharkov.projects.model.entities;
 
-import zharkov.projects.utils.TagToIntConverter;
+import zharkov.projects.utils.StringToIntConverterByTags;
 
 import javax.persistence.Column;
 import javax.persistence.Convert;
@@ -8,18 +8,18 @@ import javax.persistence.Id;
 import java.io.Serializable;
 
 public class TagPublicationEntityPK implements Serializable {
-    private Tag tag;
+    private String name;
     private int publicationId;
 
     @Column(name = "tag_id", nullable = false)
     @Id
-    @Convert(converter = TagToIntConverter.class)
-    public Tag getTag() {
-        return tag;
+    @Convert(converter = StringToIntConverterByTags.class)
+    public String getName() {
+        return name;
     }
 
-    public void setTag(Tag tag) {
-        this.tag = tag;
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Column(name = "publication_id", nullable = false)
@@ -39,7 +39,7 @@ public class TagPublicationEntityPK implements Serializable {
 
         TagPublicationEntityPK that = (TagPublicationEntityPK) o;
 
-        if (tag.getDatabaseId() != that.tag.getDatabaseId()) return false;
+        if (name != null ? !name.equals(that.name) : that.name != null) return false;
         if (publicationId != that.publicationId) return false;
 
         return true;
@@ -47,7 +47,7 @@ public class TagPublicationEntityPK implements Serializable {
 
     @Override
     public int hashCode() {
-        int result = tag.getDatabaseId();
+        int result = (name != null ? name.hashCode() : 0);
         result = 31 * result + publicationId;
         return result;
     }

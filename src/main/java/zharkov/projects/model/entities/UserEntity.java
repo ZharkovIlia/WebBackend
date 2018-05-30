@@ -8,7 +8,7 @@ import java.util.List;
 
 import static javax.persistence.CascadeType.ALL;
 
-@JsonIgnoreProperties({"commentsById"})
+@JsonIgnoreProperties({"commentsById", "publicationsById", "fullName"})
 @Entity
 @Table(name = "users", schema = "public", catalog = "samizdat",
         uniqueConstraints = {@UniqueConstraint(columnNames = {"email"}, name = "users_email_key"),
@@ -17,6 +17,8 @@ public class UserEntity {
     private int userId;
     private String login;
     private String email;
+    private String firstName;
+    private String lastName;
     private List<CommentEntity> commentsById = new ArrayList<>();
     private List<PublicationEntity> publicationsById = new ArrayList<>();
 
@@ -57,6 +59,31 @@ public class UserEntity {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    @Basic
+    @Column(name = "first_name", nullable = false, length = -1)
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    @Basic
+    @Column(name = "last_name", nullable = false, length = -1)
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    @Transient
+    public String getFullName() {
+        return firstName + " " + lastName;
     }
 
     @Override
