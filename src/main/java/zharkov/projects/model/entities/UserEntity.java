@@ -19,6 +19,7 @@ public class UserEntity {
     private String email;
     private String firstName;
     private String lastName;
+    private String password;
     private List<CommentEntity> commentsById = new ArrayList<>();
     private List<PublicationEntity> publicationsById = new ArrayList<>();
 
@@ -79,6 +80,16 @@ public class UserEntity {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    @Basic
+    @Column(name = "password_", nullable = false, length = -1)
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     @Transient

@@ -102,7 +102,7 @@ public class PublicationEntity {
         this.numLikes = numLikes;
     }
 
-    @Basic(fetch = FetchType.LAZY)
+    @Basic
     @Column(name = "text_", nullable = false, length = -1)
     public String getText() {
         return text;
@@ -136,7 +136,6 @@ public class PublicationEntity {
         if (creationTime != null ? !creationTime.equals(that.creationTime) : that.creationTime != null) return false;
         if (text != null ? !text.equals(that.text) : that.text != null) return false;
         if (published != that.published) return false;
-
 
         return true;
     }

@@ -17,6 +17,7 @@ public class Publication {
     private @Getter @Setter String img = null;
     private @Getter @Setter Integer currentRate;
     private @Getter @Setter boolean published;
+    private @Getter @Setter boolean isCurrentUserLiked;
 
     public Publication(PublicationEntity entity) {
         id = entity.getPublicationId();
@@ -27,5 +28,6 @@ public class Publication {
         currentRate = entity.getNumLikes();
         tags = new ArrayList<>();
         published = entity.getPublished();
+        isCurrentUserLiked = false;
     }
 }
