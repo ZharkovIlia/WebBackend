@@ -23,12 +23,37 @@ public class PublicationController {
         );
     }
 
-    @GetMapping("/drafts")
+    /*@GetMapping("/drafts")
     public ResponseEntity<Collection<Publication>> getAllDrafts(@RequestHeader("Login") String login,
                                                                 @RequestHeader("Password") String password) {
         return new ResponseEntity<>(service.getPublicationsByVisibility(
                 new AuthenticationContainer(login, password),false),
                 HttpStatus.OK
         );
+    }*/
+
+    @GetMapping("/user/{id}/publications")
+    public ResponseEntity<Collection<Publication>> getPublicationsByUserId(@RequestHeader("Login") String login,
+                                                                           @RequestHeader("Password") String password,
+                                                                           @PathVariable("id") int id) {
+        Collection<Publication> publications = service.getPublicationsByUserId(
+                new AuthenticationContainer(login, password), id
+        );
+        if (publications == null) {
+            return new ResponseEntity<>((Collection<Publication>) null, HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(publications, HttpStatus.OK);
+    }
+
+    @GetMapping("/user/publications")
+    public ResponseEntity<Collection<Publication>> getPublicationsOfCurrentUser(@RequestHeader("Login") String login,
+                                                                           @RequestHeader("Password") String password) {
+        Collection<Publication> publications = service.getPublicationsOfCurrentUser(
+                new AuthenticationContainer(login, password)
+        );
+        if (publications == null) {
+            return new ResponseEntity<>((Collection<Publication>) null, HttpStatus.UNAUTHORIZED);
+        }
+        return new ResponseEntity<>(publications, HttpStatus.OK);
     }
 }

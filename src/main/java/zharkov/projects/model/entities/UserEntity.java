@@ -159,7 +159,7 @@ public class UserEntity {
     }
 
     @OneToMany(cascade = ALL)
-    @JoinColumn(name="publication_id")
+    @JoinColumn(name="user_id")
     public List<PublicationEntity> getPublicationsById() {
         return publicationsById;
     }

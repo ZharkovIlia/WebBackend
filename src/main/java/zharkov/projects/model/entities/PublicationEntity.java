@@ -153,7 +153,7 @@ public class PublicationEntity {
     }
 
     @OneToMany(cascade = ALL)
-    @JoinColumn(name="user_id")
+    @JoinColumn(name="publication_id")
     public List<CommentEntity> getCommentsById() {
         return commentsById;
     }
