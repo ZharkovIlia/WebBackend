@@ -1,9 +1,13 @@
+DROP TABLE IF EXISTS public.users, public.publications, public.tags_publications, public.comments_,
+	public.publication_likes, public.comment_likes CASCADE;
+
 CREATE TABLE public.users (
 	user_id serial NOT NULL PRIMARY KEY,
 	login text NOT NULL UNIQUE,
 	email text NOT NULL UNIQUE,
 	first_name text NOT NULL,
-	last_name text NOT NULL
+	last_name text NOT NULL,
+	password_ text NOT NULL
 )
 WITH (
 	OIDS=false
@@ -19,7 +23,7 @@ CREATE TABLE public.publications (
 	creation_time timestamp(6) without time zone NOT NULL,
 	num_likes integer NOT NULL,
 	text_ text NOT NULL,
-	type_ integer NOT NULL
+	published boolean NOT NULL
 )
 WITH (
 	OIDS=false
@@ -71,18 +75,15 @@ ALTER TABLE public.comment_likes OWNER TO samizdat;
 
 
 
-INSERT INTO users (user_id, login, email, first_name, last_name) VALUES
-	(DEFAULT, 'Johnnie', 'jdoe@example.com', 'John', 'Doe');
+INSERT INTO users (user_id, login, email, first_name, last_name, password_) VALUES
+	(DEFAULT, 'Johnnie', 'jdoe@example.com', 'John', 'Doe', 'password');
 
-INSERT INTO publications (publication_id, user_id, name_, description, time_, creation_time, num_likes, text_, type_) VALUES
-	(DEFAULT, 1, 'DRAFT', 'Announce', 'Time', CURRENT_TIMESTAMP(6) AT TIME ZONE 'UTC', 0, 'Text', 0),
-	(DEFAULT, 1, 'PUBLISHED', 'Announce', 'Time', CURRENT_TIMESTAMP(6) AT TIME ZONE 'UTC', 0, 'Text', 1);
+INSERT INTO publications (publication_id, user_id, name_, description, time_, creation_time, num_likes, text_, published) VALUES
+	(DEFAULT, 1, 'DRAFT', 'Announce', 'Time', CURRENT_TIMESTAMP(6) AT TIME ZONE 'UTC', 0, 'Text', FALSE),
+	(DEFAULT, 1, 'PUBLISHED', 'Announce', 'Time', CURRENT_TIMESTAMP(6) AT TIME ZONE 'UTC', 0, 'Text', TRUE);
 
 INSERT INTO tags_publications (tag_id, publication_id) VALUES
 	(0, 1),
 	(3, 1),
 	(1, 2),
 	(4, 2);
-
-
-

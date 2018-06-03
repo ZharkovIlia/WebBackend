@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import zharkov.projects.engine.services.PublicationService;
-import zharkov.projects.model.PublicationVisibility;
 import zharkov.projects.model.frontend.Publication;
 
 import java.util.Collection;
@@ -18,11 +17,11 @@ public class PublicationController {
 
     @GetMapping("/publications")
     public ResponseEntity<Collection<Publication>> getAllPublications() {
-        return new ResponseEntity<>(service.getPublicationsByType(PublicationVisibility.PUBLISHED), HttpStatus.OK);
+        return new ResponseEntity<>(service.getPublicationsByVisibility(true), HttpStatus.OK);
     }
 
     @GetMapping("/drafts")
     public ResponseEntity<Collection<Publication>> getAllDrafts() {
-        return new ResponseEntity<>(service.getPublicationsByType(PublicationVisibility.DRAFT), HttpStatus.OK);
+        return new ResponseEntity<>(service.getPublicationsByVisibility(false), HttpStatus.OK);
     }
 }

@@ -1,8 +1,5 @@
 package zharkov.projects.model.entities;
 
-import zharkov.projects.model.PublicationVisibility;
-import zharkov.projects.utils.PublicationVisibilityToIntConverter;
-
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -21,7 +18,7 @@ public class PublicationEntity {
     private Timestamp creationTime;
     private int numLikes;
     private String text;
-    private PublicationVisibility type;
+    private boolean published;
     private List<CommentEntity> commentsById = new ArrayList<>();
     private List<TagPublicationEntity> tagsById = new ArrayList<>();
     private UserEntity userByUserId;
@@ -116,14 +113,13 @@ public class PublicationEntity {
     }
 
     @Basic
-    @Column(name = "type_", nullable = false)
-    @Convert(converter = PublicationVisibilityToIntConverter.class)
-    public PublicationVisibility getType() {
-        return type;
+    @Column(name = "published", nullable = false)
+    public boolean getPublished() {
+        return published;
     }
 
-    public void setType(PublicationVisibility type) {
-        this.type = type;
+    public void setPublished(boolean published) {
+        this.published = published;
     }
 
     @Override
@@ -139,6 +135,8 @@ public class PublicationEntity {
         if (time != null ? !time.equals(that.time) : that.time != null) return false;
         if (creationTime != null ? !creationTime.equals(that.creationTime) : that.creationTime != null) return false;
         if (text != null ? !text.equals(that.text) : that.text != null) return false;
+        if (published != that.published) return false;
+
 
         return true;
     }
@@ -151,6 +149,7 @@ public class PublicationEntity {
         result = 31 * result + (creationTime != null ? creationTime.hashCode() : 0);
         result = 31 * result + numLikes;
         result = 31 * result + (text != null ? text.hashCode() : 0);
+        result = 31 * result + Boolean.hashCode(published);
         return result;
     }
 

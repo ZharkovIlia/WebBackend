@@ -1,9 +1,7 @@
 package zharkov.projects.engine.dao;
 
 import org.hibernate.Session;
-import zharkov.projects.model.PublicationVisibility;
 import zharkov.projects.model.entities.PublicationEntity;
-import zharkov.projects.utils.HibernateUtil;
 
 import java.util.List;
 
@@ -13,10 +11,10 @@ public class PublicationDAO extends AbstractDAO<PublicationEntity> {
     }
 
     @SuppressWarnings("unchecked")
-    public List<PublicationEntity> getPublicationsByType(Session session, PublicationVisibility pv) {
+    public List<PublicationEntity> getPublicationsByVisibility(Session session, boolean published) {
         List<PublicationEntity> result = (List<PublicationEntity>) session
-                .createQuery("FROM PublicationEntity pe WHERE pe.type = :type")
-                .setInteger("type", pv.getDatabaseInteger())
+                .createQuery("FROM PublicationEntity pe WHERE pe.published = :published")
+                .setBoolean("published", published)
                 .list();
         return result;
     }

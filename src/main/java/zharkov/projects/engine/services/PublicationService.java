@@ -4,7 +4,6 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import zharkov.projects.engine.dao.PublicationDAO;
 import zharkov.projects.engine.dao.TagPublicationDAO;
-import zharkov.projects.model.PublicationVisibility;
 import zharkov.projects.model.entities.PublicationEntity;
 import zharkov.projects.model.entities.TagPublicationEntity;
 import zharkov.projects.model.frontend.Publication;
@@ -20,7 +19,7 @@ public class PublicationService extends AbstractService<PublicationEntity> {
         super(new PublicationDAO());
     }
 
-    public Collection<Publication> getPublicationsByType(PublicationVisibility pv) {
+    public Collection<Publication> getPublicationsByVisibility(boolean published) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         PublicationDAO dao = (PublicationDAO) getDao();
         List<PublicationEntity> entities;
@@ -28,7 +27,7 @@ public class PublicationService extends AbstractService<PublicationEntity> {
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
-            entities = dao.getPublicationsByType(session, pv);
+            entities = dao.getPublicationsByVisibility(session, published);
             tagPublicationEntities = tagPublicationDAO.getAll(session);
             tx.commit();
         } catch (RuntimeException e) {
