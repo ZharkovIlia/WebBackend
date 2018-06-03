@@ -9,6 +9,7 @@ import java.util.List;
 
 public class Publication {
     private @Getter @Setter Integer id;
+    private @Getter @Setter Integer userId;
     private @Getter @Setter String name;
     private @Getter @Setter List<String> tags;
     private @Getter @Setter String time;
@@ -20,6 +21,7 @@ public class Publication {
     private @Getter @Setter boolean isCurrentUserLiked;
 
     public Publication(PublicationEntity entity) {
+        userId = entity.getUserId();
         id = entity.getPublicationId();
         name = entity.getName();
         time = entity.getTime();
