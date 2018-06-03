@@ -86,9 +86,9 @@ ALTER TABLE public.comment_likes OWNER TO samizdat;
 
 
 
-INSERT INTO users (user_id, login, email, first_name, last_name, password_) VALUES
-	(DEFAULT, 'Johnnie', 'jdoe@example.com', 'John', 'Doe', 'password'),
-	(DEFAULT, 'LOGIN', 'ns@example.com', 'NAME', 'SURNAME', 'password');
+INSERT INTO users (user_id, login, email, first_name, last_name, password_, about, photo) VALUES
+	(DEFAULT, 'Johnnie', 'jdoe@example.com', 'John', 'Doe', 'password', 'ABOUT', ''),
+	(DEFAULT, 'LOGIN', 'ns@example.com', 'NAME', 'SURNAME', 'password', '', '');
 
 INSERT INTO publications (publication_id, user_id, name_, description, time_, creation_time, num_likes, text_, published) VALUES
 	(DEFAULT, 1, 'DRAFT', 'Announce', 'Time', CURRENT_TIMESTAMP(6) AT TIME ZONE 'UTC', 0, 'Text', FALSE),
