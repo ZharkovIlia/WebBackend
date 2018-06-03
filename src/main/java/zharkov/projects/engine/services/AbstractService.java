@@ -2,6 +2,7 @@ package zharkov.projects.engine.services;
 
 import lombok.Getter;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 import zharkov.projects.engine.dao.AbstractDAO;
 import zharkov.projects.utils.HibernateUtil;
 
@@ -17,13 +18,14 @@ public abstract class AbstractService<T> {
 
     public Serializable save(T entity) {
         Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction tx = null;
         Serializable result;
         try {
-            session.beginTransaction();
-            result = dao.save(entity);
-            session.getTransaction().commit();
+            tx = session.beginTransaction();
+            result = dao.save(session, entity);
+            tx.commit();
         } catch (RuntimeException e) {
-            session.getTransaction().rollback();
+            tx.rollback();
             throw e;
         } finally {
             session.close();
@@ -33,13 +35,14 @@ public abstract class AbstractService<T> {
 
     public List<T> getAll() {
         Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction tx = null;
         List<T> result;
         try {
-            session.beginTransaction();
-            result = dao.getAll();
-            session.getTransaction().commit();
+            tx = session.beginTransaction();
+            result = dao.getAll(session);
+            tx.commit();
         } catch (RuntimeException e) {
-            session.getTransaction().rollback();
+            tx.rollback();
             throw e;
         } finally {
             session.close();
@@ -49,13 +52,14 @@ public abstract class AbstractService<T> {
 
     public T get(int id) {
         Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction tx = null;
         T result;
         try {
-            session.beginTransaction();
-            result = dao.get(id);
-            session.getTransaction().commit();
+            tx = session.beginTransaction();
+            result = dao.get(session, id);
+            tx.commit();
         } catch (RuntimeException e) {
-            session.getTransaction().rollback();
+            tx.rollback();
             throw e;
         } finally {
             session.close();
@@ -65,12 +69,13 @@ public abstract class AbstractService<T> {
 
     public void update(T entity) {
         Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction tx = null;
         try {
-            session.beginTransaction();
-            dao.update(entity);
-            session.getTransaction().commit();
+            tx = session.beginTransaction();
+            dao.update(session, entity);
+            tx.commit();
         } catch (RuntimeException e) {
-            session.getTransaction().rollback();
+            tx.rollback();
             throw e;
         } finally {
             session.close();
@@ -79,13 +84,14 @@ public abstract class AbstractService<T> {
 
     public boolean delete(int id) {
         Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction tx = null;
         boolean result = false;
         try {
-            session.beginTransaction();
-            result = dao.delete(id);
-            session.getTransaction().commit();
+            tx = session.beginTransaction();
+            result = dao.delete(session, id);
+            tx.commit();
         } catch (RuntimeException e) {
-            session.getTransaction().rollback();
+            tx.rollback();
             throw e;
         } finally {
             session.close();

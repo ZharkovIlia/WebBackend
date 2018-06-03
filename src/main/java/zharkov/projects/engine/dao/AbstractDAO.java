@@ -1,5 +1,6 @@
 package zharkov.projects.engine.dao;
 
+import org.hibernate.Session;
 import zharkov.projects.utils.HibernateUtil;
 
 import java.io.Serializable;
@@ -12,30 +13,29 @@ public abstract class AbstractDAO<T> {
         this.typeParameterClass = typeParameterClass;
     }
 
-    public Serializable save(T entity) {
-        Serializable result = HibernateUtil.getCurrentSession().save(entity);
+    public Serializable save(Session session, T entity) {
+        Serializable result = session.save(entity);
         return result;
     }
 
-    public List<T> getAll() {
-        List<T> result = (List<T>) HibernateUtil.getCurrentSession().createCriteria(typeParameterClass).list();
-        return result;
+    @SuppressWarnings("unchecked")
+    public List<T> getAll(Session session) {
+        return (List<T>) session.createCriteria(typeParameterClass).list();
     }
 
-    public T get(int id) {
-        T result = (T) HibernateUtil.getCurrentSession().get(typeParameterClass, id);
-        return result;
+    public T get(Session session, int id) {
+        return (T) session.get(typeParameterClass, id);
     }
 
-    public void update(T entity) {
-        HibernateUtil.getCurrentSession().update(entity);
+    public void update(Session session, T entity) {
+        session.update(entity);
     }
 
-    public boolean delete(int id) {
-        T entity = HibernateUtil.getCurrentSession().get(typeParameterClass, id);
+    public boolean delete(Session session, int id) {
+        T entity = session.get(typeParameterClass, id);
         boolean result = false;
         if (entity != null) {
-            HibernateUtil.getCurrentSession().delete(entity);
+            session.delete(entity);
             result = true;
         }
         return result;

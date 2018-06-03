@@ -13,8 +13,8 @@ public class PublicationDAO extends AbstractDAO<PublicationEntity> {
     }
 
     @SuppressWarnings("unchecked")
-    public List<PublicationEntity> getPublicationsByType(PublicationVisibility pv, Session s) {
-        List<PublicationEntity> result = (List<PublicationEntity>) s
+    public List<PublicationEntity> getPublicationsByType(Session session, PublicationVisibility pv) {
+        List<PublicationEntity> result = (List<PublicationEntity>) session
                 .createQuery("FROM PublicationEntity pe WHERE pe.type = :type")
                 .setInteger("type", pv.getDatabaseInteger())
                 .list();

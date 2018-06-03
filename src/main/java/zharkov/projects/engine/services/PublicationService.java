@@ -25,13 +25,14 @@ public class PublicationService extends AbstractService<PublicationEntity> {
         PublicationDAO dao = (PublicationDAO) getDao();
         List<PublicationEntity> entities;
         List<TagPublicationEntity> tagPublicationEntities;
+        Transaction tx = null;
         try {
-            Transaction tx = session.beginTransaction();
-            entities = dao.getPublicationsByType(pv, session);
+            tx = session.beginTransaction();
+            entities = dao.getPublicationsByType(session, pv);
             tagPublicationEntities = tagPublicationDAO.getAll(session);
             tx.commit();
         } catch (RuntimeException e) {
-            session.getTransaction().rollback();
+            tx.rollback();
             throw e;
         } finally {
             session.close();

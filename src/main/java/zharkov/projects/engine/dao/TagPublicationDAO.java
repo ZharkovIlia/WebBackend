@@ -14,11 +14,6 @@ public class TagPublicationDAO extends AbstractDAO<TagPublicationEntity> {
         super(TagPublicationEntity.class);
     }
 
-    public List<TagPublicationEntity> getAll(Session s) {
-        List<TagPublicationEntity> result = (List<TagPublicationEntity>) s.createCriteria(TagPublicationEntity.class).list();
-        return result;
-    }
-
     /*public List<Publication> enrichPublicationsWithTags(List<PublicationEntity> entities) {
         List<Publication> result = new ArrayList<>(entities.size());
         HibernateUtil.getCurrentSession()
