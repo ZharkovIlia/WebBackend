@@ -12,6 +12,11 @@ public class UserDAO extends AbstractDAO<UserEntity> {
         return (UserEntity) session.createQuery("FROM UserEntity ue WHERE ue.login = :login")
                 .setString("login", login)
                 .uniqueResult();
+    }
 
+    public UserEntity getUserByEmail(Session session, String email) {
+        return (UserEntity) session.createQuery("FROM UserEntity ue WHERE ue.email = :email")
+                .setString("email", email)
+                .uniqueResult();
     }
 }
