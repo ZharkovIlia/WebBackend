@@ -7,7 +7,9 @@ CREATE TABLE public.users (
 	email text NOT NULL UNIQUE,
 	first_name text NOT NULL,
 	last_name text NOT NULL,
-	password_ text NOT NULL
+	password_ text NOT NULL,
+	about text NOT NULL,
+	photo text NOT NULL
 )
 WITH (
 	OIDS=false

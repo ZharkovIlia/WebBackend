@@ -20,8 +20,17 @@ public class UserEntity {
     private String firstName;
     private String lastName;
     private String password;
-    private List<CommentEntity> commentsById = new ArrayList<>();
-    private List<PublicationEntity> publicationsById = new ArrayList<>();
+    private String about;
+    private String photo;
+    private List<CommentEntity> commentsById;
+    private List<PublicationEntity> publicationsById;
+
+    public UserEntity() {
+        commentsById = new ArrayList<>();
+        publicationsById = new ArrayList<>();
+        about = "";
+        photo = "";
+    }
 
     @Id
     @Column(name = "user_id", nullable = false)
@@ -90,6 +99,26 @@ public class UserEntity {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @Basic
+    @Column(name = "about", nullable = false, length = -1)
+    public String getAbout() {
+        return about;
+    }
+
+    public void setAbout(String about) {
+        this.about = about;
+    }
+
+    @Basic
+    @Column(name = "photo", nullable = false, length = -1)
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
     }
 
     @Transient

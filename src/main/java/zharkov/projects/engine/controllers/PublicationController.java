@@ -10,9 +10,9 @@ import zharkov.projects.model.frontend.Publication;
 import java.util.Collection;
 
 @RestController
-@RequestMapping("/backend")
+@RequestMapping("/api")
 public class PublicationController {
-    private static PublicationService service = new PublicationService();
+    private static final PublicationService service = new PublicationService();
 
     @GetMapping("/publications")
     public ResponseEntity<Collection<Publication>> getAllPublications(@RequestHeader("Login") String login,
